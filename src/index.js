@@ -1,7 +1,9 @@
 require("dotenv").config();
 
 // const tdaclient = require("tda-api-client");
+const fetch = require("node-fetch");
 const { Client } = require("discord.js");
+const { text } = require("express");
 const client = new Client();
 
 const DEFAULT_CHANNEL = "estebot";
@@ -13,6 +15,9 @@ const INSPIRE_RSP = `you got this`;
 const COMFORT_CMD = `comfort`;
 const COMFORT_RSP = `there there`;
 const TD_CMD = `orders`;
+const RON_CMD = `ron`;
+const CAT_CMD = `cat`;
+const GEEK_JOKE_CMD = `geekjoke`;
 const HELP_CMD = `help`;
 const HELP_RSP = `
 Commands:
@@ -67,7 +72,7 @@ client.on("message", (message) => {
 });
 
 // parse commands
-client.on("message", (message) => {
+client.on("message", async (message) => {
   if (message.author.bot) return;
   if (!message.content.startsWith(PREFIX)) return;
 
@@ -118,6 +123,35 @@ client.on("message", (message) => {
   if (CMD === TD_CMD) {
     // const result = tdaclient.accounts.getAccount(configGetAcct);
     // message.reply(result);
+  }
+
+  if (CMD === RON_CMD) {
+    const ron = await fetch(
+      "https://ron-swanson-quotes.herokuapp.com/v2/quotes"
+    )
+      .then((res) => res.text())
+      .then((text) => text.split(/[\[|\]]/)[1])
+      .then((text) => text.concat(" - Ron Swanson"));
+
+    message.channel.send(ron);
+  }
+
+  if (CMD === CAT_CMD) {
+    // https://discordjs.guide/additional-info/rest-api.html#using-node-fetch
+    const { file } = await fetch("https://aws.random.cat/meow").then((rsp) =>
+      rsp.json()
+    );
+
+    message.channel.send(file);
+  }
+
+  if (CMD === GEEK_JOKE_CMD) {
+    // https://github.com/sameerkumar18/geek-joke-api
+    const { joke } = await fetch(
+      "https://geek-jokes.sameerkumar.website/api?format=json"
+    ).then((rsp) => rsp.json());
+
+    message.channel.send(joke);
   }
 });
 
