@@ -11,21 +11,28 @@ const PREFIX = "!";
 
 const PING_CMD = `ping`;
 const INSPIRE_CMD = `inspire`;
-const INSPIRE_RSP = `you got this`;
+const INSPIRE_RSP = `you got this bitch`;
 const COMFORT_CMD = `comfort`;
-const COMFORT_RSP = `there there`;
+const COMFORT_RSP = `there there dumbass`;
 const TD_CMD = `orders`;
 const KANYE_CMD = `kanye`;
 const RON_CMD = `ron`;
 const CAT_CMD = `cat`;
 const GEEK_JOKE_CMD = `geekjoke`;
 const DAD_JOKE_CMD = `dadjoke`;
+const OFFICE_CMD = `office`;
 const HELP_CMD = `help`;
 const HELP_RSP = `
 Commands:
   - ${PING_CMD} - test latency
   - ${INSPIRE_CMD} - get an inspirational quote to fuck the shit outta the market
-  - ${COMFORT_CMD} - get a comforting quote because the market fucked you`;
+  - ${COMFORT_CMD} - get a comforting quote because the market fucked you
+  - ${KANYE_CMD} - get a comforting kanye quote
+  - ${RON_CMD} - get a comforting ron swanson quote
+  - ${CAT_CMD} - get a comforting cat picture
+  - ${GEEK_JOKE_CMD} - get a comforting nerd joke
+  - ${DAD_JOKE_CMD} - get a comforting dad joke
+  - ${OFFICE_CMD} - get a comforting the office quote`;
 
 // const configGetAcct = {
 //   accountId: 1,
@@ -170,6 +177,19 @@ client.on("message", async (message) => {
     }).then((rsp) => rsp.json());
 
     message.channel.send(joke);
+  }
+
+  if (CMD === OFFICE_CMD) {
+    // https://www.officeapi.dev
+    const { content, character } = await fetch(
+      "https://www.officeapi.dev/api/quotes/random"
+    )
+      .then((rsp) => rsp.json())
+      .then((rsp) => rsp.data);
+
+    message.channel.send(
+      content.concat(` - ${character.firstname} ${character.lastname}`)
+    );
   }
 });
 
