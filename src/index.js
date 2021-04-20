@@ -15,6 +15,7 @@ const INSPIRE_RSP = `you got this`;
 const COMFORT_CMD = `comfort`;
 const COMFORT_RSP = `there there`;
 const TD_CMD = `orders`;
+const KANYE_CMD = `kanye`;
 const RON_CMD = `ron`;
 const CAT_CMD = `cat`;
 const GEEK_JOKE_CMD = `geekjoke`;
@@ -123,6 +124,14 @@ client.on("message", async (message) => {
   if (CMD === TD_CMD) {
     // const result = tdaclient.accounts.getAccount(configGetAcct);
     // message.reply(result);
+  }
+
+  if (CMD === KANYE_CMD) {
+    const { quote } = await fetch("https://api.kanye.rest").then((res) =>
+      res.json()
+    );
+
+    message.channel.send(quote.concat(" - Kanye West"));
   }
 
   if (CMD === RON_CMD) {
