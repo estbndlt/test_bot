@@ -19,6 +19,7 @@ const KANYE_CMD = `kanye`;
 const RON_CMD = `ron`;
 const CAT_CMD = `cat`;
 const GEEK_JOKE_CMD = `geekjoke`;
+const DAD_JOKE_CMD = `dadjoke`;
 const HELP_CMD = `help`;
 const HELP_RSP = `
 Commands:
@@ -159,6 +160,14 @@ client.on("message", async (message) => {
     const { joke } = await fetch(
       "https://geek-jokes.sameerkumar.website/api?format=json"
     ).then((rsp) => rsp.json());
+
+    message.channel.send(joke);
+  }
+
+  if (CMD === DAD_JOKE_CMD) {
+    const { joke } = await fetch("https://icanhazdadjoke.com/", {
+      headers: { Accept: "application/json" },
+    }).then((rsp) => rsp.json());
 
     message.channel.send(joke);
   }
