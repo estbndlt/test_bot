@@ -7,7 +7,7 @@ const { text } = require("express");
 const client = new Client();
 
 const DEFAULT_CHANNEL = "estebot";
-const PREFIX = "!";
+const PREFIX = "$";
 
 const PING_CMD = `ping`;
 const INSPIRE_CMD = `inspire`;
