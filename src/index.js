@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-// const tdaclient = require("tda-api-client");
 const fetch = require("node-fetch");
 const { Client } = require("discord.js");
 const { text } = require("express");
@@ -14,15 +13,17 @@ const INSPIRE_CMD = `inspire`;
 const INSPIRE_RSP = `you got this bitch`;
 const COMFORT_CMD = `comfort`;
 const COMFORT_RSP = `there there dumbass`;
-const TD_CMD = `orders`;
 const KANYE_CMD = `kanye`;
 const RON_CMD = `ron`;
 const CAT_CMD = `cat`;
 const GEEK_JOKE_CMD = `geekjoke`;
 const DAD_JOKE_CMD = `dadjoke`;
 const OFFICE_CMD = `office`;
+const MAGIC_8BALL_CMD = `8ball`;
 const HELP_CMD = `help`;
 const HELP_RSP = `
+Start the command with the prefix ${PREFIX}
+
 Commands:
   - ${PING_CMD} - test latency
   - ${INSPIRE_CMD} - get an inspirational quote to fuck the shit outta the market
@@ -32,23 +33,8 @@ Commands:
   - ${CAT_CMD} - get a comforting cat picture
   - ${GEEK_JOKE_CMD} - get a comforting nerd joke
   - ${DAD_JOKE_CMD} - get a comforting dad joke
-  - ${OFFICE_CMD} - get a comforting the office quote`;
-
-// const configGetAcct = {
-//   accountId: 1,
-//   fields: "positions,orders",
-//   authConfig: {
-//     refresh_token: process.env.TD_REFRESH_TOKEN,
-//     client_id: process.env.TD_CONSUMER_KEY_LONG,
-//   },
-// };
-
-// const getAcctResult = async () => {
-//   const result = await tdaclient.accounts.getAccount(configGetAcct);
-
-//   console.log(result);
-//   return result;
-// };
+  - ${OFFICE_CMD} - get a comforting the office quote
+  - ${MAGIC_8BALL_CMD} - get a comforting answer from the 8ball gods`;
 
 // Create an event listener for new guild members
 client.on("guildMemberAdd", (member) => {
@@ -129,11 +115,6 @@ client.on("message", async (message) => {
     message.reply(HELP_RSP);
   }
 
-  if (CMD === TD_CMD) {
-    // const result = tdaclient.accounts.getAccount(configGetAcct);
-    // message.reply(result);
-  }
-
   if (CMD === KANYE_CMD) {
     const { quote } = await fetch("https://api.kanye.rest").then((res) =>
       res.json()
@@ -190,6 +171,18 @@ client.on("message", async (message) => {
     message.channel.send(
       content.concat(` - ${character.firstname} ${character.lastname}`)
     );
+  }
+
+  if (CMD === MAGIC_8BALL_CMD) {
+    // https://8ball.delegator.com
+    let params = encodeURIComponent(ARGS.join(" "));
+    let uri = "https://8ball.delegator.com/magic/JSON/" + params;
+
+    const { answer } = await fetch(uri)
+      .then((rsp) => rsp.json())
+      .then((rsp) => rsp.magic);
+
+    message.channel.send(answer);
   }
 });
 
