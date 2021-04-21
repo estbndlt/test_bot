@@ -64,6 +64,32 @@ client.on("message", (message) => {
       message.guild.channels.create(DEFAULT_CHANNEL);
     }
   }
+
+  if (message.content === "bad bot") {
+    var channel = client.channels.cache.find(
+      (channel) => channel.name === DEFAULT_CHANNEL
+    );
+
+    if (channel) {
+      message.content = ":'(((((";
+      channel.send(message);
+    } else {
+      message.guild.channels.create(DEFAULT_CHANNEL);
+    }
+  }
+
+  if (message.content === "good bot") {
+    var channel = client.channels.cache.find(
+      (channel) => channel.name === DEFAULT_CHANNEL
+    );
+
+    if (channel) {
+      message.content = "! :DDD !!!!";
+      channel.send(message);
+    } else {
+      message.guild.channels.create(DEFAULT_CHANNEL);
+    }
+  }
 });
 
 // parse commands
