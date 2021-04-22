@@ -119,10 +119,13 @@ client.on("message", async (message) => {
     return;
   }
 
-  const [CMD, ...ARGS] = message.content
+  const [CMD_RAW, ...ARGS_RAW] = message.content
     .trim()
     .substring(PREFIX.length)
     .split(/\s+/);
+
+  const CMD = CMD_RAW.toLowerCase();
+  const ARGS = ARGS_RAW.map((arg) => arg.toLowerCase());
 
   if (CMD === "ping") {
     const timeTaken = Date.now() - message.createdTimestamp;
