@@ -45,7 +45,7 @@ client.on("guildMemberAdd", (member) => {
   // Do nothing if the channel wasn't found on this server
   if (!channel) return;
   // Send the message, mentioning the member
-  channel.send(`Welcome to the server, ${member}`);
+  channel.send(`Welcome to poor investment decisions, ${member}!`);
 });
 
 // parse for key words
@@ -127,7 +127,7 @@ client.on("message", async (message) => {
   const CMD = CMD_RAW.toLowerCase();
   const ARGS = ARGS_RAW.map((arg) => arg.toLowerCase());
 
-  if (CMD === "ping") {
+  if (CMD === PING_CMD) {
     const timeTaken = Date.now() - message.createdTimestamp;
     message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
   }
