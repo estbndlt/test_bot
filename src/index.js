@@ -132,29 +132,19 @@ client.on("message", async (message) => {
   if (CMD === PING_CMD) {
     const timeTaken = Date.now() - message.createdTimestamp;
     message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
-  }
-
-  if (CMD === INSPIRE_CMD) {
+  } else if (CMD === INSPIRE_CMD) {
     message.reply(INSPIRE_RSP);
-  }
-
-  if (CMD === COMFORT_CMD) {
+  } else if (CMD === COMFORT_CMD) {
     message.reply(COMFORT_RSP);
-  }
-
-  if (CMD === HELP_CMD) {
+  } else if (CMD === HELP_CMD) {
     message.reply(HELP_RSP);
-  }
-
-  if (CMD === KANYE_CMD) {
+  } else if (CMD === KANYE_CMD) {
     const { quote } = await fetch("https://api.kanye.rest").then((res) =>
       res.json()
     );
 
     message.channel.send(quote.concat(" - Kanye West"));
-  }
-
-  if (CMD === RON_CMD) {
+  } else if (CMD === RON_CMD) {
     const ron = await fetch(
       "https://ron-swanson-quotes.herokuapp.com/v2/quotes"
     )
@@ -163,35 +153,27 @@ client.on("message", async (message) => {
       .then((text) => text.concat(" - Ron Swanson"));
 
     message.channel.send(ron);
-  }
-
-  if (CMD === CAT_CMD) {
+  } else if (CMD === CAT_CMD) {
     // https://discordjs.guide/additional-info/rest-api.html#using-node-fetch
     const { file } = await fetch("https://aws.random.cat/meow").then((rsp) =>
       rsp.json()
     );
 
     message.channel.send(file);
-  }
-
-  if (CMD === GEEK_JOKE_CMD) {
+  } else if (CMD === GEEK_JOKE_CMD) {
     // https://github.com/sameerkumar18/geek-joke-api
     const { joke } = await fetch(
       "https://geek-jokes.sameerkumar.website/api?format=json"
     ).then((rsp) => rsp.json());
 
     message.channel.send(joke);
-  }
-
-  if (CMD === DAD_JOKE_CMD) {
+  } else if (CMD === DAD_JOKE_CMD) {
     const { joke } = await fetch("https://icanhazdadjoke.com/", {
       headers: { Accept: "application/json" },
     }).then((rsp) => rsp.json());
 
     message.channel.send(joke);
-  }
-
-  if (CMD === OFFICE_CMD) {
+  } else if (CMD === OFFICE_CMD) {
     // https://www.officeapi.dev
     const { content, character } = await fetch(
       "https://www.officeapi.dev/api/quotes/random"
@@ -202,9 +184,7 @@ client.on("message", async (message) => {
     message.channel.send(
       content.concat(` - ${character.firstname} ${character.lastname}`)
     );
-  }
-
-  if (CMD === MAGIC_8BALL_CMD) {
+  } else if (CMD === MAGIC_8BALL_CMD) {
     // https://8ball.delegator.com
     let params = encodeURIComponent(ARGS.join(" "));
     let uri = "https://8ball.delegator.com/magic/JSON/" + params;
@@ -214,6 +194,9 @@ client.on("message", async (message) => {
       .then((rsp) => rsp.magic);
 
     message.channel.send(answer);
+  } else {
+    // unknown command
+    message.channel.send("beep boop boop beep, fuck off m8 :)");
   }
 });
 
