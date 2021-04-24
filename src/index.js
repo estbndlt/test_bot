@@ -52,6 +52,8 @@ client.on("guildMemberAdd", (member) => {
 client.on("message", (message) => {
   if (message.author.bot) return;
 
+  message.content = message.content.toLowerCase();
+
   if (message.content === "cool") {
     var channel = client.channels.cache.find(
       (channel) => channel.name === DEFAULT_CHANNEL
